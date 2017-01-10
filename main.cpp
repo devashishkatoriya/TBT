@@ -34,15 +34,33 @@ public :
     void inOrder(node *);
 };
  
+node *TBT::create()
+{
+    node *temp;
+    temp = new node;
+    cout<<"\nEnter data : ";
+    cin>>temp->data;
+    temp->L = false;
+    temp->left = NULL;
+    temp->R = false;
+    temp->right = NULL;
+    return temp;
+}
+
+void TBT::construct()
+{
+    
+}
+
 void TBT::inOrder(node *s)                                               //in order()
 {
- /*   if(s!=NULL)
+    if(!s->L && !s->R)
     {
         inOrder(s->left);
         cout<<s->data<<",";
         inOrder(s->right);
     }
-    */
+    
 }
  
 int main()
