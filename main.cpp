@@ -1,6 +1,9 @@
-
 //Program to perform various operations on Threaded Binary Search Tree
- 
+
+/*
+ * Created By Devashish Katoriya on 09-01-2017
+ */
+
 #include<iostream>
  
 using namespace std;
@@ -12,7 +15,7 @@ class tNode                                                      //Node Class
 public :
     int data;
     tNode *left,*right;
-    bool L,R;                           //false = child, true = thread
+    bool L,R;                          //false = child, true = thread
 };
  
 class TBST                                                   //Threaded Binary Tree Class
