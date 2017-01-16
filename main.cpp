@@ -1,74 +1,163 @@
 
-//Program to perform various operations on Threaded Binary Tree
+//Program to perform various operations on Threaded Binary Search Tree
  
 #include<iostream>
  
 using namespace std;
  
-class node                                                      //Node Class
+#define LIMIT 999999
+
+class tNode                                                      //Node Class
 {
 public :
     int data;
-    node *left,*right;
-    bool L,R;
+    tNode *left,*right;
+    bool L,R;                           //false = child, true = thread
 };
  
-class TBT                                                   //Threaded Binary Tree Class
+class TBST                                                   //Threaded Binary Tree Class
 {
-    node *root;
-    node *create();
+    tNode *root,*head;
+    tNode *create();
 public :
-    TBT()
+    TBST()
     {
         root = NULL;
+        
+        head = new tNode;
+        head->L = false;
+        head->left = head->right = head;
+        head->R = true;
+        head->data = LIMIT;
     }
-    node *retRoot()
+    tNode *retRoot()
     {
         return root;
+    }
+    bool isEmpty()
+    {
+        return root == NULL;
     }
     void clr()
     {
         root = NULL;
+        head->L = false;
+        head->left = head->right = head;
+        head->R = true;
     }
-    void construct();
-    void inOrder(node *);
+    void insert();
+    void inOrder();
 };
  
-node *TBT::create()
+tNode *TBST::create()
 {
-    node *temp;
-    temp = new node;
+    tNode *temp;
+    temp = new tNode;
     cout<<"\nEnter data : ";
     cin>>temp->data;
-    temp->L = false;
-    temp->left = NULL;
-    temp->R = false;
-    temp->right = NULL;
+    temp->L = true;
+    temp->left = temp;
+    temp->R = true;
+    temp->right = temp;
     return temp;
 }
 
-void TBT::construct()
+void TBST::insert()
 {
+    tNode *curr,*temp;
+    curr = create();
+    if(root == NULL)
+    {
+        root = curr;
+        head->left = root;
+        root->left = root->right = head;
+        cout<<"\nRoot inserted Successfully!";
+    }
+    else
+    {
+        temp = root;
+        while(1)
+        {
+            if(curr->data < temp->data)
+            {
+                if(temp->L)
+                {
+                    curr->left = temp->left;
+                    curr->right = temp;
+                    temp->left = curr;
+                    temp->L = false;
+                    cout<<"\nEntry inserted Successfully!";
+                    break;
+                }
+                else
+                    temp = temp->left;
+            }
+            else if(curr->data > temp->data)
+            {
+                if(temp->R)
+                {
+                    curr->right = temp->right;
+                    curr->left = temp;
+                    temp->right = curr;
+                    temp->R = false;
+                    cout<<"\nEntry inserted Successfully!";
+                    break;
+                }
+                else
+                    temp = temp->right;
+            }
+            else
+            {
+                cout<<"\nEntry already exists!";
+                break;
+            }
+        }
+    }
     
 }
 
-void TBT::inOrder(node *s)                                               //in order()
+void TBST::inOrder()                                               //in order traversal
 {
-    if(!s->L && !s->R)
+    tNode *temp;
+    int flag;
+    
+    if(root==NULL)
     {
-        inOrder(s->left);
-        cout<<s->data<<",";
-        inOrder(s->right);
+        cout<<"\nEmpty Tree!";
+        return;
     }
     
+    flag = 0;
+    temp = root;
+    while(temp!=head)
+    {
+        if(!temp->L && flag == 0)
+        {
+            temp = temp->left;
+        }
+        else
+        {
+            cout<<temp->data<<",";
+            if(!temp->R)
+            {
+                temp = temp->right;
+                flag = 0;
+            }
+            else
+            {
+                temp = temp->right;
+                flag = 1;
+            }
+        }
+    }
 }
  
 int main()
 {
-    TBT obj;
+    TBST obj;
     int ch;
     char choice;
-    cout<<"\nProgram to perform Various operation on Threaded Binary Tree.";
+    cout<<"\nProgram to perform Various operation on Threaded Binary Search Tree.";
     do
     {
         ch = 0;
@@ -76,19 +165,27 @@ int main()
         cout<<"\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
         cout<<"\n 1 for Construction and Insertion";
         cout<<"\n 2 for In order Traversal";
-        cout<<"\n 19 to Clear whole Tree";
+        cout<<"\n 3 to  Display Root";
+        cout<<"\n -1 to Clear whole Tree";
         cout<<"\n 0 to  Quit";
         cout<<"\nEnter your choice : ";
         cin>>ch;
         cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
         switch(ch)
         {
-            case 1 : obj.construct();
+            case 1 : obj.insert();
                 break;
             case 2 : cout<<"\nIn order Traversal is ";
-                obj.inOrder(obj.retRoot());
+                obj.inOrder();
                 break;
-            case 19: cout<<"\nAre you sure you want to clear tree (y/n) ? ";
+            case 3 : if(obj.isEmpty())
+                {
+                    cout<<"\nEmpty Tree!";
+                }
+                else
+                    cout<<"\nThe Root is "<<obj.retRoot()->data;
+                break;
+            case -1: cout<<"\nAre you sure you want to clear tree (y/n) ? ";
                 cin>>choice;
                 if(choice=='y'||choice=='Y')
                 {
