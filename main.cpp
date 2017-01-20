@@ -20,11 +20,13 @@ public :
  
 class TBST                                                   //Threaded Binary Tree Class
 {
+    int count;
     tNode *root,*head;
     tNode *create();
 public :
     TBST()
     {
+        count = 0;
         root = NULL;
         
         head = new tNode;
@@ -33,13 +35,17 @@ public :
         head->R = true;
         head->data = LIMIT;
     }
-    tNode *retRoot()
+    inline tNode *retRoot()
     {
         return root;
     }
     bool isEmpty()
     {
         return root == NULL;
+    }
+    inline int retCount()
+    {
+        return count;
     }
     void clr()
     {
@@ -50,6 +56,7 @@ public :
     }
     void insert();
     void inOrder();
+    void remove();
 };
  
 tNode *TBST::create()
@@ -62,6 +69,7 @@ tNode *TBST::create()
     temp->left = temp;
     temp->R = true;
     temp->right = temp;
+    count++;
     return temp;
 }
 
@@ -112,6 +120,7 @@ void TBST::insert()
             else
             {
                 cout<<"\nEntry already exists!";
+                count--;
                 break;
             }
         }
@@ -154,6 +163,11 @@ void TBST::inOrder()                                               //in order tr
         }
     }
 }
+
+void TBST::remove()
+{
+
+}
  
 int main()
 {
@@ -167,8 +181,10 @@ int main()
         choice = 'n';
         cout<<"\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
         cout<<"\n 1 for Construction and Insertion";
-        cout<<"\n 2 for In order Traversal";
+        cout<<"\n 2 for In-Order Traversal";
         cout<<"\n 3 to  Display Root";
+        cout<<"\n 4 to  Remove an element";
+        cout<<"\n 5 for Nodes Count";
         cout<<"\n -1 to Clear whole Tree";
         cout<<"\n 0 to  Quit";
         cout<<"\nEnter your choice : ";
@@ -197,6 +213,10 @@ int main()
                 }
                 else
                     cout<<"\nCancelled!";
+            case 4 : obj.remove();
+                break;
+            case 5 : cout<<"\nThere are total "<<obj.retCount()<<" node in the tree.";
+                break;
             case 0 : break;
             default : cout<<"\nInvalid Option!";
         }
