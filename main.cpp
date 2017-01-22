@@ -8,7 +8,7 @@
  
 using namespace std;
  
-#define LIMIT 999999
+#define LIMIT 9999
 
 class tNode                                                      //Node Class
 {
@@ -184,7 +184,8 @@ int main()
         cout<<"\n 2 for In-Order Traversal";
         cout<<"\n 3 to  Display Root";
         cout<<"\n 4 to  Remove an element";
-        cout<<"\n 5 for Nodes Count";
+        cout<<"\n 5 for Total Nodes Count";
+        cout<<"\n 6 to  Check for Empty Tree.";
         cout<<"\n -1 to Clear whole Tree";
         cout<<"\n 0 to  Quit";
         cout<<"\nEnter your choice : ";
@@ -216,6 +217,12 @@ int main()
             case 4 : obj.remove();
                 break;
             case 5 : cout<<"\nThere are total "<<obj.retCount()<<" node in the tree.";
+                break;
+            case 6 :
+                if(obj.isEmpty())
+                    cout<<"\nThe tree is Empty!";
+                else
+                    cout<<"\nThe tree is NOT empty.";
                 break;
             case 0 : break;
             default : cout<<"\nInvalid Option!";
